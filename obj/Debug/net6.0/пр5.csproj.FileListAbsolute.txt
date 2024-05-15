@@ -1,0 +1,14 @@
+C:\Users\roma1\source\repos\пр5\пр5\obj\Debug\net6.0\пр5.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\roma1\source\repos\пр5\пр5\obj\Debug\net6.0\пр5.AssemblyInfoInputs.cache
+C:\Users\roma1\source\repos\пр5\пр5\obj\Debug\net6.0\пр5.AssemblyInfo.cs
+C:\Users\roma1\source\repos\пр5\пр5\obj\Debug\net6.0\пр5.csproj.CoreCompileInputs.cache
+C:\Users\roma1\source\repos\пр5\пр5\bin\Debug\net6.0\пр5.exe
+C:\Users\roma1\source\repos\пр5\пр5\bin\Debug\net6.0\пр5.deps.json
+C:\Users\roma1\source\repos\пр5\пр5\bin\Debug\net6.0\пр5.runtimeconfig.json
+C:\Users\roma1\source\repos\пр5\пр5\bin\Debug\net6.0\пр5.dll
+C:\Users\roma1\source\repos\пр5\пр5\bin\Debug\net6.0\пр5.pdb
+C:\Users\roma1\source\repos\пр5\пр5\obj\Debug\net6.0\пр5.dll
+C:\Users\roma1\source\repos\пр5\пр5\obj\Debug\net6.0\refint\пр5.dll
+C:\Users\roma1\source\repos\пр5\пр5\obj\Debug\net6.0\пр5.pdb
+C:\Users\roma1\source\repos\пр5\пр5\obj\Debug\net6.0\пр5.genruntimeconfig.cache
+C:\Users\roma1\source\repos\пр5\пр5\obj\Debug\net6.0\ref\пр5.dll
