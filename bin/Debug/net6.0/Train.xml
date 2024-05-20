@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfTrain xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Train>
-    <Destination>adskjsdjhfbhs</Destination>
+    <Destination>fr</Destination>
+    <NumberOfTrain>12</NumberOfTrain>
+    <TimeOfLeaving>PT7H23M</TimeOfLeaving>
+  </Train>
+  <Train>
+    <Destination>iliysha</Destination>
+    <NumberOfTrain>19</NumberOfTrain>
+    <TimeOfLeaving>PT22H44M</TimeOfLeaving>
+  </Train>
+  <Train>
+    <Destination>lonely</Destination>
+    <NumberOfTrain>18</NumberOfTrain>
+    <TimeOfLeaving>PT23H33M</TimeOfLeaving>
+  </Train>
+  <Train>
+    <Destination>matweiloh</Destination>
+    <NumberOfTrain>23</NumberOfTrain>
+    <TimeOfLeaving>PT3H1M</TimeOfLeaving>
+  </Train>
+  <Train>
+    <Destination>matweineloh</Destination>
     <NumberOfTrain>1</NumberOfTrain>
-    <TimeOfLeaving>PT23H1M</TimeOfLeaving>
-  </Train>
-  <Train>
-    <Destination>dljsdfhsdfhs</Destination>
-    <NumberOfTrain>12</NumberOfTrain>
-    <TimeOfLeaving>PT13H12M</TimeOfLeaving>
-  </Train>
-  <Train>
-    <Destination>dsfjhsdjhfs</Destination>
-    <NumberOfTrain>4343</NumberOfTrain>
-    <TimeOfLeaving>PT21H</TimeOfLeaving>
-  </Train>
-  <Train>
-    <Destination>jhhsahsgdh</Destination>
-    <NumberOfTrain>12</NumberOfTrain>
-    <TimeOfLeaving>PT22H22M</TimeOfLeaving>
+    <TimeOfLeaving>PT4H44M</TimeOfLeaving>
   </Train>
 </ArrayOfTrain>

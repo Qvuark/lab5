@@ -31,8 +31,6 @@ namespace lab
                 line = sr.ReadLine();
             }
             sr.Close();
-            Console.WriteLine("Deserialized from txt:");
-            lab5.PrintStruct(train);
             return train;
         }
 

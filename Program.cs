@@ -11,43 +11,39 @@ namespace lab
     {
         public static void FindTrainsByTime(TimeSpan time, string name)
         {
-            List<Train> trains = new List<Train>();
-            string filename = name;
-            if (!File.Exists(filename))
+            if (!File.Exists(name))
             {
                 Console.WriteLine("File does not exist");
+                return;
             }
-            else
+            List<Train> trains = new List<Train>();
+            List<Train> trainsSorted = new List<Train>();
+            if (name == "Train.txt")
             {
-                if(filename == "Train.txt")
+                using (StreamReader sr = new StreamReader(name))
                 {
-                    using (StreamReader sr = new StreamReader(filename))
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
                     {
-                        string line;
-                        while ((line = sr.ReadLine()) != null)
+                        Train train = new Train(line);
+                        if (train.TimeOfLeaving == time)
                         {
-                            Train train = new Train(line);
-                            if (train.TimeOfLeaving == time)
-                            {
-                                trains.Add(train);
-                            }
+                            trains.Add(train);
                         }
                     }
-                    Print(trains);
                 }
-                if(filename=="Train.xml")
-                {
-                    List<Train> trains1 = XmlMethod.XmlReaderInFile(time, filename);
-                    Print(trains1);
-                }
+                PrintStruct(trains);
             }
-        }
-        public static void Print(List<Train> trains)
-        {
-            foreach (Train train in trains)
+            else if (name == "Train.xml")
             {
-                Console.WriteLine($"{train.Destination} {train.NumberOfTrain} {train.TimeOfLeaving}");
-            }
+                trains = XmlMethod.DeserializeTrainFromXml(name);
+                trainsSorted = trains.FindAll(train => train.TimeOfLeaving == time);
+                if (trainsSorted.Count== 0)
+                    Console.WriteLine("There are no trains in this time" +
+                        "");
+                PrintStruct(trainsSorted);
+            } 
+            
         }
         public static void PrintStruct(List<Train> trains)
         {
@@ -59,42 +55,86 @@ namespace lab
         static List<Train> WriteStructDataToList()
         {
             List<Train> train = new List<Train>();
-            if(File.Exists("Train.txt")|| File.Exists("Train.xml"))
+            if (File.Exists("Train.txt") || File.Exists("Train.xml"))
             {
-                Console.WriteLine("Input file already exists. Do you want to read it?");
-                char choice = char.Parse(Console.ReadLine());
-                if(choice == 't')
+                Console.WriteLine("Input file already exists. What do you want to do with him? Print \"add\" to add new information, print \"rewrite\" to rewrite whole file and write anything to just show list of trains");
+                string choice = Console.ReadLine();
+                switch (choice)
                 {
-                    if (File.Exists("Train.txt"))
-                        train = TxtMethod.ReadTrainFromTxt("Train.txt");
-                    if (File.Exists("Train.xml"))
-                        train = XmlMethod.DeserializeTrainFromXml("Train.xml");
-                    Console.WriteLine("Do you want to add anything?");
-                    char choice2 = char.Parse(Console.ReadLine());
-                    if(choice2 == 't')
-                    {
-                        train.Sort((a,b)=>a.CompareTo(b));
-                        Console.WriteLine("Structure:");
-                        PrintStruct(train);
-                        return train;
-                    }
+                    case "add":
+                        {
+                            if (File.Exists("Train.txt"))
+                                train = TxtMethod.ReadTrainFromTxt("Train.txt");
+                            if (File.Exists("Train.xml"))
+                                train = XmlMethod.DeserializeTrainFromXml("Train.xml");
+                            PrintStruct(train);
+                            Console.WriteLine("Do you want to add something?(y/n)");
+                            char addOrNot = char.Parse(Console.ReadLine());
+                            if (addOrNot == 'y')
+                            {
+                                Console.WriteLine("Enter data");
+                                string input1 = Console.ReadLine();
+                                while (input1 != "stop")
+                                {
+                                    train.Add(new Train(input1));
+                                    input1 = Console.ReadLine();
+                                }
+                                train.Sort();
+                            }
+                            WriteStruckToFile(train);
+                            break;
+                        }
+                    case "rewrite":
+                        {
+                            train.Clear(); // Clear existing data
+                            Console.WriteLine("Enter new data (type 'stop' to finish):");
+                            string input = Console.ReadLine();
+                            while (input.ToLower() != "stop")
+                            {
+                                train.Add(new Train(input));
+                                input = Console.ReadLine();
+                            }
+                            train.Sort();
+                            WriteStruckToFile(train);
+                            break;
+                        }
+                    case "xml":
+                        {
+                            if (File.Exists("Train.xml"))
+                            {
+                                train = XmlMethod.DeserializeTrainFromXml("Train.xml");
+                                PrintStruct(train);
+                            }
+                            else
+                            {
+                                Console.WriteLine("File does not exist");
+                            }
+                            break;
+                        }
+                    case "txt":
+                        {
+                            if (File.Exists("Train.txt"))
+                            {
+                                train = TxtMethod.ReadTrainFromTxt("Train.txt");
+                                PrintStruct(train);
+                            }
+                            else
+                            {
+                                Console.WriteLine("File does not exist");
+                            }
+                            break;
+                        }
+                    default:
+                        Console.WriteLine("Wrong Input");
+                        break;
                 }
-                else { Console.WriteLine("Dont read anything"); }
             }
-            Console.WriteLine("Enter data");
-            string input = Console.ReadLine();
-            while (input != "stop")
-            {
-                train.Add(new Train(input));
-                input = Console.ReadLine();
-            }
-            train.Sort();
             return train;
         }
-        public static void WriteStruckToFile()
+
+        public static void WriteStruckToFile(List<Train> train)
         {
-            List<Train> train = WriteStructDataToList();
-            Console.WriteLine("1 for xml, 2 for txt, 3 for both");
+            Console.WriteLine("Print 1 for xml, 2 for txt, 3 for both");
             string choice = Console.ReadLine();
             switch (choice)
             {
@@ -125,14 +165,14 @@ namespace lab
         }
         static void ReadFile()
         {
-            Console.WriteLine("Write 1 to run xml file or 2 to run txt method");
+            Console.WriteLine("Write 1 to run xml file or 2 for txt method");
             int choice = int.Parse(Console.ReadLine());
             switch (choice)
             {
                 case 1:
                     {
                         string filename = "Train.xml";
-                        if (!File.Exists("Train.xml")) { Console.WriteLine("file do not exist"); break; }
+                        if (!File.Exists("Train.xml")) { Console.WriteLine("File does not exist"); break; }
                         XmlMethod.DeserializeTrainFromXml(filename);
                         Console.WriteLine("Enter time you want to check:");
                         TimeSpan time = TimeSpan.Parse(Console.ReadLine());
@@ -142,7 +182,7 @@ namespace lab
                 case 2:
                     {
                         string filename = "Train.txt";
-                        if (!File.Exists("Train.txt")) { Console.WriteLine("file do not exist"); break; }
+                        if (!File.Exists("Train.txt")) { Console.WriteLine("File does not exist"); break; }
                         TxtMethod.ReadTrainFromTxt(filename);
                         Console.WriteLine("Enter time you want to check:");
                         TimeSpan time = TimeSpan.Parse(Console.ReadLine());
@@ -158,7 +198,7 @@ namespace lab
         }
         static void Main()
         {
-            Console.WriteLine("1 to readfile 2 to write file");
+            Console.WriteLine("Print 1 to read file or 2 to make changes in file");
             int choice = int.Parse(Console.ReadLine());
             switch (choice)
             {
@@ -166,7 +206,7 @@ namespace lab
                     ReadFile();
                     break;
                 case 2:
-                    WriteStruckToFile();
+                    WriteStructDataToList();
                     break;
                 default:
                     {
